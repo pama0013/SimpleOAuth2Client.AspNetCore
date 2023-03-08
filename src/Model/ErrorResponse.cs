@@ -6,7 +6,7 @@ namespace SimpleOAuth2Client.AspNetCore.Model;
 ///  The error response from the authorization server.
 /// </summary>
 /// <remarks>In case of a error the authorization server responds with an HTTP 400 (Bad Request).</remarks>
-internal sealed record class ErrorResponse
+internal sealed record ErrorResponse
 {
     /// <summary>
     /// Gets a single ASCII error code from authorization server.

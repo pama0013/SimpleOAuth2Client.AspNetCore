@@ -12,7 +12,8 @@ public class OAuth2ErrorTests
     [Theory]
     [AutoData]
     public void GivenErrorCodeandErrorDescriptionAreAvailable_WhenOAuth2ErrorIsCreated_ThenOAuth2ErrorPropertiesAreSetCorrect(
-        string errorCode, string errorDescription)
+        string errorCode,
+        string errorDescription)
     {
         // Given
         // Nothing to do --> Test data will be injected (See: AutoData attribute)

@@ -32,13 +32,7 @@ public sealed record AccessToken
     /// <param name="expiresIn">The expire time of the access token.</param>
     public AccessToken(string accessToken, int expiresIn)
     {
-        if (accessToken is null)
-        {
-            throw new ArgumentNullException(nameof(accessToken));
-        }
-
         Value = accessToken;
-
         _expiresIn = expiresIn;
         _created = DateTime.Now;
     }
