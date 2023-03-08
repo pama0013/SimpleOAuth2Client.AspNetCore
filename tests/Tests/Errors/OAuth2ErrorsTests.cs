@@ -11,7 +11,7 @@ public class OAuth2ErrorsTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public void GivenErrorDescriptionIsAvailable_WhenAccessTokenRequestIsCalled_ThenExpectedOAuth2ErrorIsReturned(
+    internal void GivenErrorDescriptionIsAvailable_WhenAccessTokenRequestIsCalled_ThenExpectedOAuth2ErrorIsReturned(
         string errorDescription)
     {
         // Given
@@ -35,8 +35,8 @@ public class OAuth2ErrorsTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public void GivenErrorDescriptionIsAvailable_WhenAccessTokenResponseIsCalled_ThenExpectedOAuth2ErrorIsReturned(
-    string errorDescription)
+    internal void GivenErrorDescriptionIsAvailable_WhenAccessTokenResponseIsCalled_ThenExpectedOAuth2ErrorIsReturned(
+        string errorDescription)
     {
         // Given
         // Nothing to do --> Test data will be injected (See: AutoData attribute)
@@ -59,7 +59,7 @@ public class OAuth2ErrorsTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public void GivenErrorDescriptionIsAvailable_WhenUnhandledIsCalled_ThenExpectedOAuth2ErrorIsReturned(
+    internal void GivenErrorDescriptionIsAvailable_WhenUnhandledIsCalled_ThenExpectedOAuth2ErrorIsReturned(
         string errorDescription)
     {
         // Given

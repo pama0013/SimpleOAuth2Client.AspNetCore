@@ -11,7 +11,7 @@ public class AccessTokenRequestTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public async Task GivenGrantTypeAndScopeAreAvailable_WhenAccessTokenRequestIsCreated_ThenHttpContentWithGrantTypeAndScopeIsUsed(
+    internal async Task GivenGrantTypeAndScopeAreAvailable_WhenAccessTokenRequestIsCreated_ThenHttpContentWithGrantTypeAndScopeIsUsed(
         string grantType)
     {
         // Given
@@ -37,7 +37,7 @@ public class AccessTokenRequestTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public async Task GivenGrantTypeIsAvailable_WhenAccessTokenRequestIsCreated_ThenHttpContentWithGrantTypeIsUsed(
+    internal async Task GivenGrantTypeIsAvailable_WhenAccessTokenRequestIsCreated_ThenHttpContentWithGrantTypeIsUsed(
         string grantType,
         string scope)
     {

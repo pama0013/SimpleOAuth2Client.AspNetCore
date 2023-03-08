@@ -11,7 +11,7 @@ public class AccessTokenResponseTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public void GivenDataForAccessTokenAreAvailable_WhenAccessTokenResponseIsCreated_ThenAccessTokenResponsePropertiesAreSetAsExpected(
+    internal void GivenDataForAccessTokenAreAvailable_WhenAccessTokenResponseIsCreated_ThenAccessTokenResponsePropertiesAreSetAsExpected(
         string accessToken,
         int expiresIn,
         string tokenType,

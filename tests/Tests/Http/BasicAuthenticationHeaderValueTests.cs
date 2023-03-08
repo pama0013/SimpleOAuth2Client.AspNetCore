@@ -11,7 +11,7 @@ public class BasicAuthenticationHeaderValueTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public void GivenUsernameAndPasswordAreAvailable_WhenBasicAuthenticationHeaderValueIsCreated_ThenSchemeAndParameterAreSetAsExpected(
+    internal void GivenUsernameAndPasswordAreAvailable_WhenBasicAuthenticationHeaderValueIsCreated_ThenSchemeAndParameterAreSetAsExpected(
         string username,
         string password)
     {

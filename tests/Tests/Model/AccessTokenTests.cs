@@ -11,7 +11,7 @@ public class AccessTokenTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public void GivenTokenIsExpired_WhenAccessTokenIsCreated_ThenAccessTokenIsNotValid(
+    internal void GivenTokenIsExpired_WhenAccessTokenIsCreated_ThenAccessTokenIsNotValid(
         string token)
     {
         // Given
@@ -35,7 +35,7 @@ public class AccessTokenTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public void GivenTokenIsNotExpired_WhenAccessTokenIsCreated_ThenAccessTokenIsValid(
+    internal void GivenTokenIsNotExpired_WhenAccessTokenIsCreated_ThenAccessTokenIsValid(
         string token,
         int expiresIn)
     {

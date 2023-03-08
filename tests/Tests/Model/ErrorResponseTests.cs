@@ -11,7 +11,7 @@ public class ErrorResponseTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public void GivenDataForErrorResponseAreAvailable_WhenErrorResponseIsCreated_ThenErrorResponsePropertiesAreSetAsExpected(
+    internal void GivenDataForErrorResponseAreAvailable_WhenErrorResponseIsCreated_ThenErrorResponsePropertiesAreSetAsExpected(
         string error,
         string errorDescription,
         Uri errorUri)

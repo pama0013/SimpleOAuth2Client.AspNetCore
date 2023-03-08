@@ -11,7 +11,7 @@ public class OAuth2ErrorTests
     [UnitTest]
     [Theory]
     [AutoData]
-    public void GivenErrorCodeandErrorDescriptionAreAvailable_WhenOAuth2ErrorIsCreated_ThenOAuth2ErrorPropertiesAreSetCorrect(
+    internal void GivenErrorCodeandErrorDescriptionAreAvailable_WhenOAuth2ErrorIsCreated_ThenOAuth2ErrorPropertiesAreSetCorrect(
         string errorCode,
         string errorDescription)
     {
