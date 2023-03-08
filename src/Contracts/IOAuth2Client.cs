@@ -7,7 +7,7 @@ namespace SimpleOAuth2Client.AspNetCore.Contracts;
 /// <summary>
 /// Interface to request a access token from the authorization server.
 /// </summary>
-public interface IOAuthClient
+public interface IOAuth2Client
 {
     /// <summary>
     /// Request the access token from the authorization server.

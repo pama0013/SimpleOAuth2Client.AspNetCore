@@ -7,9 +7,9 @@ using SimpleOAuth2Client.AspNetCore.Model;
 namespace SimpleOAuth2Client.AspNetCore;
 
 /// <summary>
-/// The implementation of the IOAuthClient interface.
+/// The implementation of the IOAuth2Client interface.
 /// </summary>
-internal sealed class OAuthClient : IOAuthClient
+internal sealed class OAuth2Client : IOAuth2Client
 {
     private readonly IAuthorizationGrant _authorizationGrant;
 
@@ -18,7 +18,7 @@ internal sealed class OAuthClient : IOAuthClient
     /// </summary>
     /// <param name="authorizationGrant">The authorization grant.</param>
     /// <exception cref="ArgumentNullException">In case of a parameter is null.</exception>
-    public OAuthClient(IAuthorizationGrant authorizationGrant)
+    public OAuth2Client(IAuthorizationGrant authorizationGrant)
     {
         _authorizationGrant = authorizationGrant;
     }

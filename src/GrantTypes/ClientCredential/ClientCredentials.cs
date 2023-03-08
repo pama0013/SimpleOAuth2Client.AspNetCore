@@ -1,10 +1,11 @@
 ﻿using System.Text.Json;
 using CSharpFunctionalExtensions;
+using Microsoft.Extensions.Options;
 using SimpleOAuth2Client.AspNetCore.Common.Errors;
 using SimpleOAuth2Client.AspNetCore.Common.Http;
-using SimpleOAuth2Client.AspNetCore.Configuration;
 using SimpleOAuth2Client.AspNetCore.GrantTypes.Contracts;
 using SimpleOAuth2Client.AspNetCore.Model;
+using SimpleOAuth2Client.AspNetCore.Options;
 
 namespace SimpleOAuth2Client.AspNetCore.GrantTypes.ClientCredential;
 
@@ -14,23 +15,23 @@ namespace SimpleOAuth2Client.AspNetCore.GrantTypes.ClientCredential;
 internal sealed class ClientCredentials : IAuthorizationGrant
 {
     private readonly IAuthorizationServerErrorHandler _authorizationServerErrorHandler;
-    private readonly ClientCredentialConfig _configuration;
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IOptionsMonitor<ClientCredentialOptions> _options;
 
     /// <summary>
     /// The constructor.
     /// </summary>
     /// <param name="httpClientFactory">The HttpClientfactor to create named clients.</param>
     /// <param name="authorizationServerErrorHandler">The AuthorizationServerErrorHandler.</param>
-    /// <param name="configuration">The configuration for the ClientCredentials grant type.</param>
+    /// <param name="options">The options for ClientCredentials grant type.</param>
     /// <exception cref="ArgumentNullException">If one of the constructor parameters are null.</exception>
     public ClientCredentials(
         IHttpClientFactory httpClientFactory,
         IAuthorizationServerErrorHandler authorizationServerErrorHandler,
-        ClientCredentialConfig configuration)
+        IOptionsMonitor<ClientCredentialOptions> options)
     {
         _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        _options = options ?? throw new ArgumentNullException(nameof(options));
         _authorizationServerErrorHandler = authorizationServerErrorHandler ?? throw new ArgumentNullException(nameof(authorizationServerErrorHandler));
     }
 
@@ -39,13 +40,13 @@ internal sealed class ClientCredentials : IAuthorizationGrant
     {
         using HttpClient httpClient = _httpClientFactory.CreateClient("AuthClient");
 
-        using HttpRequestMessage httpRequestMessage = new(HttpMethod.Post, _configuration.TokenEndpoint)
+        using HttpRequestMessage httpRequestMessage = new(HttpMethod.Post, _options.CurrentValue.TokenEndpoint)
         {
-            Content = new AccessTokenRequest("client_credentials", _configuration.Scope).HttpContent,
+            Content = new AccessTokenRequest("client_credentials", _options.CurrentValue.Scope).HttpContent,
         };
 
-        string username = _configuration.ClientId;
-        string password = _configuration.ClientSecret;
+        string username = _options.CurrentValue.ClientId;
+        string password = _options.CurrentValue.ClientSecret;
 
         httpRequestMessage.Headers.Authorization = new BasicAuthenticationHeaderValue(username, password);
 
