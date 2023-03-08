@@ -7,7 +7,7 @@ internal static class OAuth2Errors
 {
     private const string AccessTokenRequestErrorCode = "OAuth2.AccessTokenRequest";
     private const string AccessTokenResponseErrorCode = "OAuth2.AccessTokenResponse";
-    private const string Unhandled = "OAuth2.Unhandled";
+    private const string UnhandledErrorCode = "OAuth2.Unhandled";
 
     /// <summary>
     /// Provide a error that is related to the access token request.
@@ -28,5 +28,5 @@ internal static class OAuth2Errors
     /// </summary>
     /// <param name="errorDescription">The error description.</param>
     /// <returns>The error.</returns>
-    public static OAuth2Error UnhandledError(string errorDescription) => new(Unhandled, errorDescription);
+    public static OAuth2Error Unhandled(string errorDescription) => new(UnhandledErrorCode, errorDescription);
 }

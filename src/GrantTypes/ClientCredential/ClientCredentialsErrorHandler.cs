@@ -39,6 +39,6 @@ internal sealed class ClientCredentialsErrorHandler : IAuthorizationServerErrorH
             }
         }
 
-        return OAuth2Errors.UnhandledError(httpResponseMessageContent);
+        return OAuth2Errors.Unhandled(httpResponseMessageContent);
     }
 }

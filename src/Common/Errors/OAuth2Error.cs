@@ -6,11 +6,6 @@
 public sealed record OAuth2Error
 {
     /// <summary>
-    /// Gets the creation date.
-    /// </summary>
-    public DateTime CreationDate { get; }
-
-    /// <summary>
     /// Gets the error code.
     /// </summary>
     public string ErrorCode { get; }
@@ -29,6 +24,5 @@ public sealed record OAuth2Error
     {
         ErrorCode = errorCode;
         ErrorDescription = errorDescription;
-        CreationDate = DateTime.UtcNow;
     }
 }
