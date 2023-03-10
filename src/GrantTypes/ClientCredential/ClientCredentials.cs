@@ -31,8 +31,8 @@ internal sealed class ClientCredentials : IAuthorizationGrant
         IOptionsMonitor<ClientCredentialOptions> options)
     {
         _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-        _options = options ?? throw new ArgumentNullException(nameof(options));
         _authorizationServerErrorHandler = authorizationServerErrorHandler ?? throw new ArgumentNullException(nameof(authorizationServerErrorHandler));
+        _options = options ?? throw new ArgumentNullException(nameof(options));
     }
 
     /// <inheritdoc/>
@@ -62,9 +62,13 @@ internal sealed class ClientCredentials : IAuthorizationGrant
     private static async Task<Result<AccessToken, OAuth2Error>> ParseAccessToken(HttpResponseMessage httpResponseMessage)
     {
         string httpResponseMessageContent = await httpResponseMessage.Content.ReadAsStringAsync();
-        AccessTokenResponse? accessTokenResponse = JsonSerializer.Deserialize<AccessTokenResponse>(httpResponseMessageContent);
 
-        return accessTokenResponse is not null ?
-            new AccessToken(accessTokenResponse.AccessToken, accessTokenResponse.ExpiresIn) : OAuth2Errors.AccessTokenResponse(httpResponseMessageContent);
+        AccessTokenResponse? accessTokenResponse = JsonSerializer.Deserialize<AccessTokenResponse>(httpResponseMessageContent);
+        if (accessTokenResponse is null)
+        {
+            return OAuth2Errors.AccessTokenResponse("Could not deserialize AccessTokenResponse");
+        }
+
+        return new AccessToken(accessTokenResponse.AccessToken, accessTokenResponse.ExpiresIn);
     }
 }

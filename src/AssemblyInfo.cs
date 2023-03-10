@@ -2,3 +2,4 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("SimpleOAuth2Client.AspNetCore.UnitTests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

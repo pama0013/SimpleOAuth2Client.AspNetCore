@@ -20,7 +20,7 @@ internal sealed class OAuth2Client : IOAuth2Client
     /// <exception cref="ArgumentNullException">In case of a parameter is null.</exception>
     public OAuth2Client(IAuthorizationGrant authorizationGrant)
     {
-        _authorizationGrant = authorizationGrant;
+        _authorizationGrant = authorizationGrant ?? throw new ArgumentNullException(nameof(authorizationGrant));
     }
 
     /// <inheritdoc/>

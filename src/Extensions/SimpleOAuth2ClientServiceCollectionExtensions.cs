@@ -1,12 +1,10 @@
-﻿using System.Net.Http.Headers;
-using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SimpleOAuth2Client.AspNetCore.Common.Http.Extensions;
 using SimpleOAuth2Client.AspNetCore.Contracts;
 using SimpleOAuth2Client.AspNetCore.GrantTypes.ClientCredential;
 using SimpleOAuth2Client.AspNetCore.GrantTypes.Contracts;
 using SimpleOAuth2Client.AspNetCore.Options;
 using SimpleOAuth2Client.AspNetCore.Options.Validation.Extensions;
-using SimpleOAuth2Client.AspNetCore.Options.Validation.Validators;
 
 namespace SimpleOAuth2Client.AspNetCore.Extensions;
 
@@ -27,30 +25,23 @@ public static class SimpleOAuth2ClientServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(configureOptions);
 
         services
-            .AddSingleton<IValidator<ClientCredentialOptions>, ClientCredentialOptionsValidator>()
+            .AddCustomizedHttpClient()
+            .AddSimpleOAuth2ClientServices()
             .AddOptions<ClientCredentialOptions>()
-            .Configure(configureOptions)
             .AddClientCredentialOptionsValidation()
+            .Configure(configureOptions)
             .ValidateOnStart();
-
-        RegisterSimpleOAuth2Client(services);
 
         return services;
     }
 
-    private static void RegisterSimpleOAuth2Client(IServiceCollection services)
+    private static IServiceCollection AddSimpleOAuth2ClientServices(this IServiceCollection services)
     {
-        services
-            .AddHttpClient("AuthClient", httpClient =>
-            {
-                httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-            });
-
         services
             .AddSingleton<IAuthorizationServerErrorHandler, ClientCredentialsErrorHandler>()
             .AddSingleton<IAuthorizationGrant, ClientCredentials>()
             .AddSingleton<IOAuth2Client, OAuth2Client>();
+
+        return services;
     }
 }

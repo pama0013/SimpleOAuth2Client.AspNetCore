@@ -3,7 +3,7 @@ using FluentAssertions;
 using FluentValidation.TestHelper;
 using SimpleOAuth2Client.AspNetCore.Options;
 using SimpleOAuth2Client.AspNetCore.Options.Validation.Validators;
-using SimpleOAuth2Client.AspNetCore.UnitTests.Common;
+using SimpleOAuth2Client.AspNetCore.UnitTests.Common.Attributes;
 using Xunit;
 
 namespace SimpleOAuth2Client.AspNetCore.UnitTests.Tests.Options;

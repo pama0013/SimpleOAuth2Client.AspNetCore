@@ -10,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace SimpleOAuth2Client.AspNetCore.UnitTests.Common
+namespace SimpleOAuth2Client.AspNetCore.UnitTests.Common.Attributes
 {
     /// <summary>
     /// This is a TraitDiscoverer implementation. Discover all Tests marked by the "UnitTest" attribute.

@@ -2,7 +2,7 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
 
-namespace SimpleOAuth2Client.AspNetCore.UnitTests.Common;
+namespace SimpleOAuth2Client.AspNetCore.UnitTests.Common.Attributes;
 
 /// <summary>
 /// This attribute is used to provide Mocks automatically to XUnit based Unit-Tests.

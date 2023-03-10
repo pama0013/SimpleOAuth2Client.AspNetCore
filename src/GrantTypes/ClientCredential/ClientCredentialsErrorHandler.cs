@@ -10,17 +10,13 @@ namespace SimpleOAuth2Client.AspNetCore.GrantTypes.ClientCredential;
 /// </summary>
 internal sealed class ClientCredentialsErrorHandler : IAuthorizationServerErrorHandler
 {
-    public ClientCredentialsErrorHandler()
-    {
-    }
-
     public async Task<OAuth2Error> HandleAuthorizationServerError(HttpResponseMessage httpResponseMessage)
     {
         ArgumentNullException.ThrowIfNull(httpResponseMessage);
 
         if (httpResponseMessage.IsSuccessStatusCode)
         {
-            throw new InvalidOperationException($"No error for HTTP-Status code {httpResponseMessage.StatusCode} available.");
+            throw new InvalidOperationException($"HTTP-Status code {httpResponseMessage.StatusCode} is not a valid HTTP-Status code error.");
         }
 
         if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)

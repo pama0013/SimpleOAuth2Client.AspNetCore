@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using SimpleOAuth2Client.AspNetCore.Options;
 using SimpleOAuth2Client.AspNetCore.Options.Validation.Validators;
-using SimpleOAuth2Client.AspNetCore.UnitTests.Common;
+using SimpleOAuth2Client.AspNetCore.UnitTests.Common.Attributes;
 using Xunit;
 
 namespace SimpleOAuth2Client.AspNetCore.UnitTests.Tests.Options;
@@ -30,7 +30,8 @@ public class ClientCredentialOptionsValidationTests
         // Then
         validateOptionsAction
             .Should()
-            .Throw<ArgumentNullException>();
+            .ThrowExactly<ArgumentNullException>()
+            .WithParameterName("options");
     }
 
     [UnitTest]
@@ -46,7 +47,7 @@ public class ClientCredentialOptionsValidationTests
         // Then
         sutCreated
             .Should()
-            .Throw<ArgumentNullException>()
+            .ThrowExactly<ArgumentNullException>()
             .WithParameterName("validator");
     }
 

@@ -1,7 +1,7 @@
 ﻿using AutoFixture.Xunit2;
 using FluentAssertions;
 using SimpleOAuth2Client.AspNetCore.Common.Http;
-using SimpleOAuth2Client.AspNetCore.UnitTests.Common;
+using SimpleOAuth2Client.AspNetCore.UnitTests.Common.Attributes;
 using Xunit;
 
 namespace SimpleOAuth2Client.AspNetCore.UnitTests.Tests.Http;
