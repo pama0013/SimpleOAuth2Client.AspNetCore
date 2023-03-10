@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleOAuth2Client.AspNetCore", "src\SimpleOAuth2Client.AspNetCore.csproj", "{4F5849ED-CE71-4E52-A279-08986D2AD8F5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleOAuth2Client.AspNetCore.UnitTests", "tests\SimpleOAuth2Client.AspNetCore.UnitTests.csproj", "{BA53F011-48E1-406F-873C-DCD74C30666A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{540E19C8-A38D-4929-B36B-E89535A3D24C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1C8AA882-9AFA-46FD-AB5B-B99413D37A43}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86D836BC-1557-4EC2-B5E2-BA9A5445FE56}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleOAuth2Client.AspNetCore.Example", "examples\SimpleOAuth2Client.AspNetCore.Example\SimpleOAuth2Client.AspNetCore.Example.csproj", "{F3B94BD0-D74C-475A-B966-BA0E6C31B1BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{4D57D385-5712-4140-9080-B68C03FB9A47}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F5849ED-CE71-4E52-A279-08986D2AD8F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F5849ED-CE71-4E52-A279-08986D2AD8F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F5849ED-CE71-4E52-A279-08986D2AD8F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F5849ED-CE71-4E52-A279-08986D2AD8F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA53F011-48E1-406F-873C-DCD74C30666A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA53F011-48E1-406F-873C-DCD74C30666A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA53F011-48E1-406F-873C-DCD74C30666A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA53F011-48E1-406F-873C-DCD74C30666A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3B94BD0-D74C-475A-B966-BA0E6C31B1BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3B94BD0-D74C-475A-B966-BA0E6C31B1BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3B94BD0-D74C-475A-B966-BA0E6C31B1BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3B94BD0-D74C-475A-B966-BA0E6C31B1BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4F5849ED-CE71-4E52-A279-08986D2AD8F5} = {540E19C8-A38D-4929-B36B-E89535A3D24C}
+		{BA53F011-48E1-406F-873C-DCD74C30666A} = {1C8AA882-9AFA-46FD-AB5B-B99413D37A43}
+		{F3B94BD0-D74C-475A-B966-BA0E6C31B1BF} = {4D57D385-5712-4140-9080-B68C03FB9A47}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {76935FE0-34E2-41A0-8D84-DADDBAD7A4C1}
+	EndGlobalSection
+EndGlobal
