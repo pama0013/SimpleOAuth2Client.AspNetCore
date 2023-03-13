@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
@@ -9,6 +9,28 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Title>SimpleOAuth2Client for AspNetCore</Title>
+    <VersionSuffix>alpha</VersionSuffix>
+    <Authors>Patrick Mathias</Authors>
+    <Company />
+    <Description>This repository provide a client that support parts of the OAuth 2.0 Authorization Framework [RFC6749]. This client can be used with ASP.NET Core.</Description>
+    <PackageTags>OAuth2;Client;AspNetCore</PackageTags>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Copyright>Copyright (c) Patrick Mathias 2023</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\images\icon.png" Pack="true" PackagePath="\"/>
+    <None Include="..\README.md"  Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.37.0" />
