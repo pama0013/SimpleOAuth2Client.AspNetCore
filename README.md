@@ -5,7 +5,7 @@ This repository provide a client for ASP.NET Core based projects that supports p
 At the moment only the authorization grant type "client credentials" is supported. Later the remaining ones are added.
 
 ## NuGet
-    PM> Install-Package SimpleOAuth2Client.AspNetCore
+    PM> Install-Package -Id SimpleOAuth2Client.AspNetCore -Version 1.0.0-alpha
 
 ## How?
 The SimpleOAuth2Client project defines a service interface named `IOAuth2Client` to request access tokens from a OAuth2 based authorization server. The services is registred with lifetime "Signleton" and can be injected via the ASP.NET Core IoC-Container.
