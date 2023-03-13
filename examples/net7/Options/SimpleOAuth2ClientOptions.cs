@@ -1,4 +1,4 @@
-﻿namespace SimpleOAuth2Client.AspNetCore.Example.Options;
+﻿namespace SimpleOAuth2Client.AspNetCore.Example.Net7.Options;
 
 public sealed class SimpleOAuth2ClientOptions
 {

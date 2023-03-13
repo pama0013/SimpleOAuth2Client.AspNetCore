@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SimpleOAuth2Client.AspNetCore.csproj" />
+    <PackageReference Include="SimpleOAuth2Client.AspNetCore" Version="1.0.0-alpha" />
   </ItemGroup>
 
 </Project>
