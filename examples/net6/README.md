@@ -7,7 +7,7 @@ First of all we need to start the minimal implementation of the IdentityServer4 
 The client credentials are:
 - ClientID = test-client
 - ClientSecret = password12345
-- TokenEndpoint = https://localhost:5001/connect/token
+- TokenEndpoint = https://localhost:5002/connect/token
 
 To handover the SimpleOAuth2ClientOptions to the ASP.NET Core 7 example we have multiple options:
 1. Define the client credentials in the appsettings.json file
