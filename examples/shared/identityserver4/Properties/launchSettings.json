@@ -1,13 +1,13 @@
 {
-  "profiles": {
-    "IdentityServer4": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:5001",
-      "launchUrl": ".well-known/openid-configuration"
+    "profiles": {
+        "IdentityServer4": {
+            "commandName": "Project",
+            "launchBrowser": true,
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "applicationUrl": "https://localhost:5002",
+            "launchUrl": ".well-known/openid-configuration"
+        }
     }
-  }
 }
