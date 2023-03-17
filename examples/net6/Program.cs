@@ -2,7 +2,7 @@ using CSharpFunctionalExtensions;
 
 using SimpleOAuth2Client.AspNetCore.Common.Errors;
 using SimpleOAuth2Client.AspNetCore.Contracts;
-using SimpleOAuth2Client.AspNetCore.Example.Net7.Options;
+using SimpleOAuth2Client.AspNetCore.Example.Net6.Options;
 using SimpleOAuth2Client.AspNetCore.Extensions;
 using SimpleOAuth2Client.AspNetCore.Model;
 
