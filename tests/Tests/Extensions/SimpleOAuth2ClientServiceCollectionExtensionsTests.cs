@@ -25,10 +25,8 @@ public class SimpleOAuth2ClientServiceCollectionExtensionsTests
         _ = services.AddSimpleOAuth2Client(options => { });
 
         // Then
-
         IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-        AssertRegisteredService<IAuthorizationServerErrorHandler>(serviceProvider);
         AssertRegisteredService<IAuthorizationGrant>(serviceProvider);
         AssertRegisteredService<IOAuth2Client>(serviceProvider);
     }

@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net;
+using System.Text.Json;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Options;
 using SimpleOAuth2Client.AspNetCore.Common.Errors;
@@ -14,7 +15,6 @@ namespace SimpleOAuth2Client.AspNetCore.GrantTypes.ClientCredential;
 /// </summary>
 internal sealed class ClientCredentials : IAuthorizationGrant
 {
-    private readonly IAuthorizationServerErrorHandler _authorizationServerErrorHandler;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IOptionsMonitor<ClientCredentialOptions> _options;
 
@@ -22,16 +22,11 @@ internal sealed class ClientCredentials : IAuthorizationGrant
     /// The constructor.
     /// </summary>
     /// <param name="httpClientFactory">The HttpClientfactor to create named clients.</param>
-    /// <param name="authorizationServerErrorHandler">The AuthorizationServerErrorHandler.</param>
     /// <param name="options">The options for ClientCredentials grant type.</param>
     /// <exception cref="ArgumentNullException">If one of the constructor parameters are null.</exception>
-    public ClientCredentials(
-        IHttpClientFactory httpClientFactory,
-        IAuthorizationServerErrorHandler authorizationServerErrorHandler,
-        IOptionsMonitor<ClientCredentialOptions> options)
+    public ClientCredentials(IHttpClientFactory httpClientFactory, IOptionsMonitor<ClientCredentialOptions> options)
     {
         _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-        _authorizationServerErrorHandler = authorizationServerErrorHandler ?? throw new ArgumentNullException(nameof(authorizationServerErrorHandler));
         _options = options ?? throw new ArgumentNullException(nameof(options));
     }
 
@@ -40,7 +35,7 @@ internal sealed class ClientCredentials : IAuthorizationGrant
     {
         using HttpClient httpClient = _httpClientFactory.CreateClient("AuthClient");
 
-        using HttpRequestMessage httpRequestMessage = new(HttpMethod.Post, _options.CurrentValue.TokenEndpoint)
+        using var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, _options.CurrentValue.TokenEndpoint)
         {
             Content = new AccessTokenRequest("client_credentials", _options.CurrentValue.Scope).HttpContent,
         };
@@ -53,10 +48,38 @@ internal sealed class ClientCredentials : IAuthorizationGrant
         HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
         if (!httpResponseMessage.IsSuccessStatusCode)
         {
-            return await _authorizationServerErrorHandler.HandleAuthorizationServerError(httpResponseMessage);
+            return await HandleHttpResponseMessageError(httpResponseMessage);
         }
 
         return await ParseAccessToken(httpResponseMessage);
+    }
+
+    private static async Task<OAuth2Error> HandleHttpResponseMessageError(HttpResponseMessage httpResponseMessage)
+    {
+        string httpResponseMessageContent = await httpResponseMessage.Content.ReadAsStringAsync();
+
+        return httpResponseMessage.StatusCode switch
+        {
+            // In case of a HttpStatusCode.Unauthorized --> ClientCredentials are wrong (Authentication failed)
+            HttpStatusCode.Unauthorized => OAuth2Errors.AccessTokenRequest("invalid_client"),
+
+            // In case of a HttpStatusCode.InternalServerError --> Authorization server error or transient error
+            HttpStatusCode.InternalServerError => OAuth2Errors.AuthorizationServer(httpResponseMessageContent),
+
+            // In case of a HttpStatusCode.BadRequest --> AccessTokenRequest was invalid
+            HttpStatusCode.BadRequest => HandleHttpStatusCodeBadRequest(httpResponseMessageContent),
+
+            _ => OAuth2Errors.Unhandled(httpResponseMessageContent)
+        };
+    }
+
+    private static OAuth2Error HandleHttpStatusCodeBadRequest(string httpResponseMessageContent)
+    {
+        ErrorResponse? errorResponse = JsonSerializer.Deserialize<ErrorResponse>(httpResponseMessageContent);
+
+        return errorResponse is null
+            ? OAuth2Errors.AccessTokenRequest(httpResponseMessageContent)
+            : OAuth2Errors.AccessTokenRequest($"[{errorResponse.Error}|{errorResponse.ErrorDescription ?? "-"}]");
     }
 
     private static async Task<Result<AccessToken, OAuth2Error>> ParseAccessToken(HttpResponseMessage httpResponseMessage)

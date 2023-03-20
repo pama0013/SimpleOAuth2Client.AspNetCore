@@ -70,4 +70,11 @@ internal static class AuthorizationServerResponses
 
         return new StringContent(errorResponseWithoutDescription);
     }
+
+    /// <summary>
+    /// Create a TransientErrorHandler response.
+    /// </summary>
+    /// <param name="error">The error message.</param>
+    /// <returns>The error response.</returns>
+    public static HttpContent CreateTransientErrorResponse(string error) => new StringContent(error);
 }
