@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SimpleOAuth2Client.AspNetCore.Common.Http.Extensions;
 
@@ -17,12 +18,16 @@ internal static class CustomizedHttpClientServiceCollectionExtensions
     /// <returns>The modified service collection.</returns>
     internal static IServiceCollection AddCustomizedHttpClient(this IServiceCollection services)
     {
-        services.AddHttpClient("AuthClient", httpClient =>
-        {
-            httpClient.DefaultRequestHeaders.Clear();
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-        });
+        services.TryAddScoped<TransientErrorHandlerDelegate>();
+
+        services
+            .AddHttpClient("AuthClient", httpClient =>
+            {
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
+            })
+            .AddHttpMessageHandler<TransientErrorHandlerDelegate>();
 
         return services;
     }

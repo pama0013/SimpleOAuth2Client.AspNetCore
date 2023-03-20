@@ -25,12 +25,14 @@ public static class SimpleOAuth2ClientServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(configureOptions);
 
         services
-            .AddCustomizedHttpClient()
-            .AddSimpleOAuth2ClientServices()
             .AddOptions<ClientCredentialOptions>()
             .AddClientCredentialOptionsValidation()
             .Configure(configureOptions)
             .ValidateOnStart();
+
+        services
+            .AddCustomizedHttpClient()
+            .AddSimpleOAuth2ClientServices();
 
         return services;
     }
@@ -38,7 +40,6 @@ public static class SimpleOAuth2ClientServiceCollectionExtensions
     private static IServiceCollection AddSimpleOAuth2ClientServices(this IServiceCollection services)
     {
         services
-            .AddSingleton<IAuthorizationServerErrorHandler, ClientCredentialsErrorHandler>()
             .AddSingleton<IAuthorizationGrant, ClientCredentials>()
             .AddSingleton<IOAuth2Client, OAuth2Client>();
 
