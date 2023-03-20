@@ -1,7 +1,7 @@
 ﻿namespace SimpleOAuth2Client.AspNetCore.Example.Net6.Options;
 
 /// <summary>
-/// TBD.
+/// Bind the SimpleOAuth2Client options to this object.
 /// </summary>
 public sealed class SimpleOAuth2ClientOptions
 {
