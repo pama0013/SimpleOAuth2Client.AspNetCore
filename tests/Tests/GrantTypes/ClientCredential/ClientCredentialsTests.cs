@@ -22,7 +22,7 @@ public class ClientCredentialsTests
     [AutoMoqData]
     internal void GivenAllDependenciesAreValid_WhenClientCredentialsIsCreated_ThenNoArgumentNullExcpetionShouldThrow(
         Mock<IHttpClientFactory> httpClientFactoryMock,
-        Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock)
+        Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock)
     {
         // Given
         // Nothing to do --> Test data will be injected (See: AutoData attribute)
@@ -46,21 +46,21 @@ public class ClientCredentialsTests
         string tokenType,
         int expiresIn,
         [Frozen] Mock<IHttpClientFactory> httpClientFactoryMock,
-        [Frozen] Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
         MockHttpMessageHandler httpMessageHandlerMock,
-        ClientCredentialOptions options,
+        SimpleOAuth2ClientOptions options,
         ClientCredentials sut)
     {
         // Given
         using var httpClient = new HttpClient(httpMessageHandlerMock);
 
         SetupHttpClientFactory(httpClientFactoryMock, httpClient);
-        SetupClientCredentialOptions(optionsMonitorMock, options);
+        SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         using HttpContent accessTokenResponse = AuthorizationServerResponses.CreateAccessTokenResponse(accessToken, tokenType, expiresIn);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.TokenEndpoint.ToString())
+            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.OK, accessTokenResponse);
 
         // When
@@ -90,21 +90,21 @@ public class ClientCredentialsTests
     [AutoMoqData]
     internal async Task GivenAuthorizationServerReturnInvalidAccessTokenRepsoneAndHttpStatusCodeOk_WhenExecuteIsCalled_ThenOAuth2ErrorIsReturned(
         [Frozen] Mock<IHttpClientFactory> httpClientFactoryMock,
-        [Frozen] Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
         MockHttpMessageHandler httpMessageHandlerMock,
-        ClientCredentialOptions options,
+        SimpleOAuth2ClientOptions options,
         ClientCredentials sut)
     {
         // Given
         using var httpClient = new HttpClient(httpMessageHandlerMock);
 
         SetupHttpClientFactory(httpClientFactoryMock, httpClient);
-        SetupClientCredentialOptions(optionsMonitorMock, options);
+        SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         using HttpContent accessTokenResponse = AuthorizationServerResponses.CreateAccessTokenResponseWithNullValue();
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.TokenEndpoint.ToString())
+            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.OK, accessTokenResponse);
 
         // When
@@ -136,10 +136,10 @@ public class ClientCredentialsTests
     [AutoMoqData]
     internal async Task GivenAuthorizationServerReturnsHttpStatusCodeBadRequestWithErrorMessage_WhenExecuteIsCalled_ThenRelatedOAuth2ErrorIsReturned(
         [Frozen] Mock<IHttpClientFactory> httpClientFactoryMock,
-        [Frozen] Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
         string errorMessage,
         MockHttpMessageHandler httpMessageHandlerMock,
-        ClientCredentialOptions options,
+        SimpleOAuth2ClientOptions options,
         ClientCredentials sut)
     {
         // Given
@@ -147,10 +147,10 @@ public class ClientCredentialsTests
         using HttpContent httpResponseContent = AuthorizationServerResponses.CreateErrorResponseWithoutDescription(errorMessage);
 
         SetupHttpClientFactory(httpClientFactoryMock, httpClient);
-        SetupClientCredentialOptions(optionsMonitorMock, options);
+        SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.TokenEndpoint.ToString())
+            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.BadRequest, httpResponseContent);
 
         // When
@@ -177,11 +177,11 @@ public class ClientCredentialsTests
     [AutoMoqData]
     internal async Task GivenAuthorizationServerReturnsHttpStatusCodeBadRequestWithErrorMessageAndErrorDescription_WhenExecuteIsCalled_ThenRelatedOAuth2ErrorIsReturned(
         [Frozen] Mock<IHttpClientFactory> httpClientFactoryMock,
-        [Frozen] Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
         string errorMessage,
         string errorDescription,
         MockHttpMessageHandler httpMessageHandlerMock,
-        ClientCredentialOptions options,
+        SimpleOAuth2ClientOptions options,
         ClientCredentials sut)
     {
         // Given
@@ -189,10 +189,10 @@ public class ClientCredentialsTests
         using HttpContent httpResponseContent = AuthorizationServerResponses.CreateErrorResponseWithDescription(errorMessage, errorDescription);
 
         SetupHttpClientFactory(httpClientFactoryMock, httpClient);
-        SetupClientCredentialOptions(optionsMonitorMock, options);
+        SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.TokenEndpoint.ToString())
+            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.BadRequest, httpResponseContent);
 
         // When
@@ -219,9 +219,9 @@ public class ClientCredentialsTests
     [AutoMoqData]
     internal async Task GivenAuthorizationServerReturnsHttpStatusCodeBadRequestWithNullValue_WhenExecuteIsCalled_ThenRelatedOAuth2ErrorIsReturned(
         [Frozen] Mock<IHttpClientFactory> httpClientFactoryMock,
-        [Frozen] Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
         MockHttpMessageHandler httpMessageHandlerMock,
-        ClientCredentialOptions options,
+        SimpleOAuth2ClientOptions options,
         ClientCredentials sut)
     {
         // Given
@@ -229,10 +229,10 @@ public class ClientCredentialsTests
         using HttpContent httpResponseContent = AuthorizationServerResponses.CreateAccessTokenResponseWithNullValue();
 
         SetupHttpClientFactory(httpClientFactoryMock, httpClient);
-        SetupClientCredentialOptions(optionsMonitorMock, options);
+        SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.TokenEndpoint.ToString())
+            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.BadRequest, httpResponseContent);
 
         // When
@@ -259,10 +259,10 @@ public class ClientCredentialsTests
     [AutoMoqData]
     internal async Task GivenAuthorizationServerReturnsHttpStatusCodeInternalServerError_WhenExecuteIsCalled_ThenRelatedOAuth2ErrorIsReturned(
         [Frozen] Mock<IHttpClientFactory> httpClientFactoryMock,
-        [Frozen] Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
         MockHttpMessageHandler httpMessageHandlerMock,
         string errorMessage,
-        ClientCredentialOptions options,
+        SimpleOAuth2ClientOptions options,
         ClientCredentials sut)
     {
         // Given
@@ -270,10 +270,10 @@ public class ClientCredentialsTests
         using HttpContent accessTokenResponse = AuthorizationServerResponses.CreateTransientErrorResponse(errorMessage);
 
         SetupHttpClientFactory(httpClientFactoryMock, httpClient);
-        SetupClientCredentialOptions(optionsMonitorMock, options);
+        SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.TokenEndpoint.ToString())
+            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.InternalServerError, accessTokenResponse);
 
         // When
@@ -300,10 +300,10 @@ public class ClientCredentialsTests
     [AutoMoqData]
     internal async Task GivenAuthorizationServerReturnsHttpStatusCodeThatIsNotHandled_WhenExecuteIsCalled_ThenRelatedOAuth2ErrorIsReturned(
         [Frozen] Mock<IHttpClientFactory> httpClientFactoryMock,
-        [Frozen] Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
         MockHttpMessageHandler httpMessageHandlerMock,
         string errorMessage,
-        ClientCredentialOptions options,
+        SimpleOAuth2ClientOptions options,
         ClientCredentials sut)
     {
         // Given
@@ -311,10 +311,10 @@ public class ClientCredentialsTests
         using HttpContent accessTokenResponse = AuthorizationServerResponses.CreateTransientErrorResponse(errorMessage);
 
         SetupHttpClientFactory(httpClientFactoryMock, httpClient);
-        SetupClientCredentialOptions(optionsMonitorMock, options);
+        SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.TokenEndpoint.ToString())
+            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.BadGateway, accessTokenResponse);
 
         // When
@@ -341,19 +341,19 @@ public class ClientCredentialsTests
     [AutoMoqData]
     internal async Task GivenAuthorizationServerReturnsHttpStatusCodeUnauthorized_WhenExecuteIsCalled_ThenRelatedOAuth2ErrorIsReturned(
         [Frozen] Mock<IHttpClientFactory> httpClientFactoryMock,
-        [Frozen] Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
         MockHttpMessageHandler httpMessageHandlerMock,
-        ClientCredentialOptions options,
+        SimpleOAuth2ClientOptions options,
         ClientCredentials sut)
     {
         // Given
         using var httpClient = new HttpClient(httpMessageHandlerMock);
 
         SetupHttpClientFactory(httpClientFactoryMock, httpClient);
-        SetupClientCredentialOptions(optionsMonitorMock, options);
+        SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.TokenEndpoint.ToString())
+            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.Unauthorized);
 
         // When
@@ -379,7 +379,7 @@ public class ClientCredentialsTests
     [Theory]
     [AutoMoqData]
     internal void GivenIHttpClientFactoryIsNull_WhenClientCredentialsIsCreated_ThenArgumentNullExcpetionWithRelatedErrorIsThrown(
-        Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock)
+        Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock)
     {
         // Given
         IHttpClientFactory invalidHttpClientFactory = null!;
@@ -403,7 +403,7 @@ public class ClientCredentialsTests
         Mock<IHttpClientFactory> httpClientFactoryMock)
     {
         // Given
-        IOptionsMonitor<ClientCredentialOptions> invalidOptionsMonitor = null!;
+        IOptionsMonitor<SimpleOAuth2ClientOptions> invalidOptionsMonitor = null!;
 
         // When
         Action sutCreated = () => _ = new ClientCredentials(
@@ -417,17 +417,17 @@ public class ClientCredentialsTests
             .WithParameterName("options");
     }
 
-    private static void SetupClientCredentialOptions(Mock<IOptionsMonitor<ClientCredentialOptions>> optionsMonitorMock, ClientCredentialOptions options)
-    {
-        optionsMonitorMock
-            .SetupGet(_ => _.CurrentValue)
-            .Returns(options);
-    }
-
     private static void SetupHttpClientFactory(Mock<IHttpClientFactory> httpClientFactoryMock, HttpClient httpClient)
     {
         httpClientFactoryMock
             .Setup(_ => _.CreateClient("AuthClient"))
             .Returns(httpClient);
+    }
+
+    private static void SetupSimpleOAuth2ClientOptions(Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock, SimpleOAuth2ClientOptions options)
+    {
+        optionsMonitorMock
+            .SetupGet(_ => _.CurrentValue)
+            .Returns(options);
     }
 }

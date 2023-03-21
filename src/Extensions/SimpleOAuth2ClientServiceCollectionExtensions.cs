@@ -19,15 +19,15 @@ public static class SimpleOAuth2ClientServiceCollectionExtensions
     /// <param name="services">The service collection to which OAuth2 services are added.</param>
     /// <param name="configureOptions">A delegate which is run to configure the services</param>
     /// <returns>The modified service collection.</returns>
-    public static IServiceCollection AddSimpleOAuth2Client(this IServiceCollection services, Action<ClientCredentialOptions> configureOptions)
+    public static IServiceCollection AddSimpleOAuth2Client(this IServiceCollection services, Action<SimpleOAuth2ClientOptions> configureOptions)
     {
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(configureOptions);
 
         services
-            .AddOptions<ClientCredentialOptions>()
-            .AddClientCredentialOptionsValidation()
+            .AddOptions<SimpleOAuth2ClientOptions>()
             .Configure(configureOptions)
+            .AddSimpleOAuth2ClientOptionsValidation()
             .ValidateOnStart();
 
         services

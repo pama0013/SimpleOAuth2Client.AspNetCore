@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using AutoFixture.Xunit2;
 using FluentAssertions;
+using Polly.Timeout;
 using RichardSzalay.MockHttp;
 using SimpleOAuth2Client.AspNetCore.Common.Http;
 using SimpleOAuth2Client.AspNetCore.UnitTests.Common.Attributes;
@@ -89,6 +90,42 @@ public class TransientErrorHandlerDelegateTests
         httpMessageHandlerMock
             .Fallback
             .Throw(new TaskCanceledException());
+
+        using var transientErrorHandler = new TransientErrorHandlerDelegate
+        {
+            InnerHandler = httpMessageHandlerMock
+        };
+
+        using var httpClient = new HttpClient(transientErrorHandler);
+
+        // When
+        HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, content);
+
+        // Then
+        responseMessage
+            .StatusCode
+            .Should()
+            .Be(HttpStatusCode.InternalServerError);
+
+        string httpResponseMessageContent = await responseMessage.Content.ReadAsStringAsync();
+
+        httpResponseMessageContent
+            .Should()
+            .Be("The authorization server is currently not available.");
+    }
+
+    [UnitTest]
+    [Theory]
+    [AutoData]
+    internal async Task GivenTimeoutRejectedExceptionIsThrown_WhenHttpClientIsExecuted_ThenTransientErrorHandlerDelegateReturnHttpStatusCode500InternalServerError(
+        Uri uri,
+        StringContent content,
+        MockHttpMessageHandler httpMessageHandlerMock)
+    {
+        // Given
+        httpMessageHandlerMock
+            .Fallback
+            .Throw(new TimeoutRejectedException());
 
         using var transientErrorHandler = new TransientErrorHandlerDelegate
         {

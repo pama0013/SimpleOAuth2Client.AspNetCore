@@ -28,8 +28,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\images\icon.png" Pack="true" PackagePath="\"/>
-    <None Include="..\README.md"  Pack="true" PackagePath="\"/>
+    <None Include="..\images\icon.png" Pack="true" PackagePath="\" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +38,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.4" />
+    <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
   </ItemGroup>
 
 </Project>

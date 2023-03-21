@@ -16,13 +16,21 @@ public class SimpleOAuth2ClientServiceCollectionExtensionsTests
     [Theory]
     [AutoData]
     internal void GivenConfigureOptionsActionAndIServiceCollectionAreAvailable_WhenAddSimpleOAuth2ClientIsCalled_ThenAllRelatedServicesAreRegistered(
-        ServiceCollection services)
+        ServiceCollection services,
+        Uri tokenEndpoint,
+        string clientId,
+        string clientSecret)
     {
         // Given
         // Nothing to do --> Test data will be injected (See: AutoData attribute)
 
         // When
-        _ = services.AddSimpleOAuth2Client(options => { });
+        _ = services.AddSimpleOAuth2Client(options =>
+        {
+            options.ClientCredentialOptions.ClientId = clientId;
+            options.ClientCredentialOptions.ClientSecret = clientSecret;
+            options.ClientCredentialOptions.TokenEndpoint = tokenEndpoint;
+        });
 
         // Then
         IServiceProvider serviceProvider = services.BuildServiceProvider();
@@ -38,7 +46,7 @@ public class SimpleOAuth2ClientServiceCollectionExtensionsTests
         ServiceCollection services)
     {
         // Given
-        Action<ClientCredentialOptions> invalidConfigureOptions = null!;
+        Action<SimpleOAuth2ClientOptions> invalidConfigureOptions = null!;
 
         // When
         Action addSimpleOAuth2ClientCalled = () => _ = services.AddSimpleOAuth2Client(invalidConfigureOptions);

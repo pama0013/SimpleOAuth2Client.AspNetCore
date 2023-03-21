@@ -3,8 +3,9 @@
 namespace SimpleOAuth2Client.AspNetCore.Options.Validation.Validators;
 
 /// <summary>
-/// A customized validator for the ClientCredentialOptions.
+/// Customized options validator for ClientCredentialOptions.
 /// </summary>
+/// <remarks>This validator use a FluentValidation validator.</remarks>
 internal sealed class ClientCredentialOptionsValidator : AbstractValidator<ClientCredentialOptions>
 {
     /// <summary>

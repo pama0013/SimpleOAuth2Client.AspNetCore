@@ -18,13 +18,13 @@ public class OptionsBuilderFluentValidationExtensionsTests
     [AutoMoqData]
     internal void GivenOptionsBuilderIsCreated_WhenAddClientCredentialOptionsValidationIsCalled_ThenExpectedIValidateOptionsImplementationIsRegistered(
         [Frozen] Mock<IServiceCollection> serviceCollectionMock,
-        OptionsBuilder<ClientCredentialOptions> optionsBuilder)
+        OptionsBuilder<SimpleOAuth2ClientOptions> optionsBuilder)
     {
         // Given
         // Nothing to do --> Test data will be injected (See: AutoData attribute)
 
         // When
-        _ = optionsBuilder.AddClientCredentialOptionsValidation();
+        _ = optionsBuilder.AddSimpleOAuth2ClientOptionsValidation();
 
         // Then
         serviceCollectionMock.Verify(_ => _.Add(It.Is<ServiceDescriptor>(sd => IsClientCredentialOptionsValidationRegistered(sd))), Times.Once);
@@ -35,13 +35,13 @@ public class OptionsBuilderFluentValidationExtensionsTests
     [AutoMoqData]
     internal void GivenOptionsBuilderIsCreated_WhenAddClientCredentialOptionsValidationIsCalled_ThenExpectedIValidatorImplementationIsRegistered(
         [Frozen] Mock<IServiceCollection> serviceCollectionMock,
-        OptionsBuilder<ClientCredentialOptions> optionsBuilder)
+        OptionsBuilder<SimpleOAuth2ClientOptions> optionsBuilder)
     {
         // Given
         // Nothing to do --> Test data will be injected (See: AutoData attribute)
 
         // When
-        _ = optionsBuilder.AddClientCredentialOptionsValidation();
+        _ = optionsBuilder.AddSimpleOAuth2ClientOptionsValidation();
 
         // Then
         serviceCollectionMock.Verify(_ => _.Add(It.Is<ServiceDescriptor>(sd => IsClientCredentialOptionsValidatorRegistered(sd))), Times.Once);
@@ -49,11 +49,11 @@ public class OptionsBuilderFluentValidationExtensionsTests
 
     private static bool IsClientCredentialOptionsValidationRegistered(ServiceDescriptor serviceDescriptor) =>
         serviceDescriptor.Lifetime == ServiceLifetime.Singleton &&
-        serviceDescriptor.ServiceType == typeof(IValidateOptions<ClientCredentialOptions>) &&
-        serviceDescriptor.ImplementationType == typeof(ClientCredentialOptionsValidation);
+        serviceDescriptor.ServiceType == typeof(IValidateOptions<SimpleOAuth2ClientOptions>) &&
+        serviceDescriptor.ImplementationType == typeof(SimpleOAuth2ClientOptionsValidation);
 
     private static bool IsClientCredentialOptionsValidatorRegistered(ServiceDescriptor serviceDescriptor) =>
         serviceDescriptor.Lifetime == ServiceLifetime.Singleton &&
-        serviceDescriptor.ServiceType == typeof(IValidator<ClientCredentialOptions>) &&
-        serviceDescriptor.ImplementationType == typeof(ClientCredentialOptionsValidator);
+        serviceDescriptor.ServiceType == typeof(IValidator<SimpleOAuth2ClientOptions>) &&
+        serviceDescriptor.ImplementationType == typeof(SimpleOAuth2ClientOptionsValidator);
 }
