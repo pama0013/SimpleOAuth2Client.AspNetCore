@@ -11,17 +11,17 @@ namespace SimpleOAuth2Client.AspNetCore.Options.Validation.Extensions;
 internal static class OptionsBuilderFluentValidationExtensions
 {
     /// <summary>
-    /// Add all ClientCredentialOptions related services.
+    /// Add all SimpleOAuth2ClientOptions related services.
     /// </summary>
     /// <param name="optionsBuilder">The options builder.</param>
     /// <returns>The modified options builder.</returns>
-    internal static OptionsBuilder<ClientCredentialOptions> AddClientCredentialOptionsValidation(
-        this OptionsBuilder<ClientCredentialOptions> optionsBuilder)
+    internal static OptionsBuilder<SimpleOAuth2ClientOptions> AddSimpleOAuth2ClientOptionsValidation(
+        this OptionsBuilder<SimpleOAuth2ClientOptions> optionsBuilder)
     {
         optionsBuilder
             .Services
-            .AddSingleton<IValidator<ClientCredentialOptions>, ClientCredentialOptionsValidator>()
-            .AddSingleton<IValidateOptions<ClientCredentialOptions>, ClientCredentialOptionsValidation>();
+            .AddSingleton<IValidator<SimpleOAuth2ClientOptions>, SimpleOAuth2ClientOptionsValidator>()
+            .AddSingleton<IValidateOptions<SimpleOAuth2ClientOptions>, SimpleOAuth2ClientOptionsValidation>();
 
         return optionsBuilder;
     }

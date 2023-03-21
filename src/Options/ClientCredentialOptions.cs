@@ -1,7 +1,7 @@
 ﻿namespace SimpleOAuth2Client.AspNetCore.Options;
 
 /// <summary>
-/// The options to authenticate a client at the authorization server and request a access token with grant type client_credentials.
+/// The required options for the grant type client_credentials.
 /// </summary>
 public sealed record ClientCredentialOptions
 {

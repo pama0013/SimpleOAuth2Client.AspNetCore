@@ -15,34 +15,14 @@ namespace SimpleOAuth2Client.AspNetCore.UnitTests.Tests.Options;
 public class ClientCredentialOptionsValidationTests
 {
     [UnitTest]
-    [Theory]
-    [AutoMoqData]
-    internal void GivenClientCredentialOptionsValidationIsCreated_WhenValidateIsCalledWithInvalidOptions_ThenArgumentNullExpcetionIsThrown(
-        string name,
-        ClientCredentialOptionsValidation sut)
-    {
-        // Given
-        ClientCredentialOptions invalidOptions = null!;
-
-        // When
-        Action validateOptionsAction = () => _ = sut.Validate(name, invalidOptions);
-
-        // Then
-        validateOptionsAction
-            .Should()
-            .ThrowExactly<ArgumentNullException>()
-            .WithParameterName("options");
-    }
-
-    [UnitTest]
     [Fact]
-    internal void GivenIValidatorIsNull_WhenClientCredentialOptionsValidationIsCreated_ThenArgumentNullExceptionWithRelatedMessageIsThrown()
+    internal void GivenIValidatorIsNull_WhenSimpleOAuth2ClientOptionsValidationIsCreated_ThenArgumentNullExceptionWithRelatedMessageIsThrown()
     {
         // Given
-        IValidator<ClientCredentialOptions> invalidValidator = null!;
+        IValidator<SimpleOAuth2ClientOptions> invalidValidator = null!;
 
         // When
-        Action sutCreated = () => _ = new ClientCredentialOptionsValidation(invalidValidator);
+        Action sutCreated = () => _ = new SimpleOAuth2ClientOptionsValidation(invalidValidator);
 
         // Then
         sutCreated
@@ -54,14 +34,14 @@ public class ClientCredentialOptionsValidationTests
     [UnitTest]
     [Theory]
     [AutoMoqData]
-    internal void GivenIValidatorIsValid_WhenClientCredentialOptionsValidationIsCreated_ThenNoExceptionIsThrown(
-        Mock<IValidator<ClientCredentialOptions>> validatorMock)
+    internal void GivenIValidatorIsValid_WhenSimpleOAuth2ClientOptionsValidationIsCreated_ThenNoExceptionIsThrown(
+        Mock<IValidator<SimpleOAuth2ClientOptions>> validatorMock)
     {
         // Given
         // Nothing to do --> Test data will be injected (See: AutoData attribute)
 
         // When
-        Action sutCreated = () => _ = new ClientCredentialOptionsValidation(validatorMock.Object);
+        Action sutCreated = () => _ = new SimpleOAuth2ClientOptionsValidation(validatorMock.Object);
 
         // Then
         sutCreated
@@ -74,9 +54,9 @@ public class ClientCredentialOptionsValidationTests
     [AutoMoqData]
     internal void GivenNoValidationErrorsAreAvailable_WhenValidateIsCalled_ThenValidateOptionsResultSucceededIsReturned(
         string name,
-        ClientCredentialOptions options,
-        [Frozen] Mock<IValidator<ClientCredentialOptions>> validatorMock,
-        ClientCredentialOptionsValidation sut)
+        SimpleOAuth2ClientOptions options,
+        [Frozen] Mock<IValidator<SimpleOAuth2ClientOptions>> validatorMock,
+        SimpleOAuth2ClientOptionsValidation sut)
     {
         // Given
         validatorMock
@@ -96,12 +76,32 @@ public class ClientCredentialOptionsValidationTests
     [UnitTest]
     [Theory]
     [AutoMoqData]
+    internal void GivenSimpleOAuth2ClientOptionsValidationIsCreated_WhenValidateIsCalledWithInvalidOptions_ThenArgumentNullExpcetionIsThrown(
+        string name,
+        SimpleOAuth2ClientOptionsValidation sut)
+    {
+        // Given
+        SimpleOAuth2ClientOptions invalidOptions = null!;
+
+        // When
+        Action validateOptionsAction = () => _ = sut.Validate(name, invalidOptions);
+
+        // Then
+        validateOptionsAction
+            .Should()
+            .ThrowExactly<ArgumentNullException>()
+            .WithParameterName("options");
+    }
+
+    [UnitTest]
+    [Theory]
+    [AutoMoqData]
     internal void GivenValidationErrorsAreAvailable_WhenValidateIsCalled_ThenValidateOptionsResultFailedIsReturned(
         string name,
-        ClientCredentialOptions options,
+        SimpleOAuth2ClientOptions options,
         Generator<ValidationFailure> validationFailuresGenerator,
-        [Frozen] Mock<IValidator<ClientCredentialOptions>> validatorMock,
-        ClientCredentialOptionsValidation sut)
+        [Frozen] Mock<IValidator<SimpleOAuth2ClientOptions>> validatorMock,
+        SimpleOAuth2ClientOptionsValidation sut)
     {
         // Given
         validatorMock
