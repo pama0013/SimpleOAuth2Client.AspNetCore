@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Polly.Timeout;
 
 namespace SimpleOAuth2Client.AspNetCore.Common.Http;
 
@@ -14,7 +15,7 @@ internal sealed class TransientErrorHandlerDelegate : DelegatingHandler
         {
             return await base.SendAsync(request, cancellationToken);
         }
-        catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
+        catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException || ex is TimeoutRejectedException)
         {
             return new HttpResponseMessage(HttpStatusCode.InternalServerError)
             {
