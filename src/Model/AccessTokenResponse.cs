@@ -46,12 +46,12 @@ internal sealed record AccessTokenResponse
     /// The constructor.
     /// </summary>
     /// <param name="accessToken">The access token issued by the authorization server</param>
-    /// <param name="expiresIn">The lifetime in seconds of the access token</param>
     /// <param name="tokenType">The type of the token</param>
+    /// <param name="expiresIn">The lifetime in seconds of the access token</param>
     /// <param name="refreshToken">The refresh token, which can be used to obtain new access tokens using the same authorization grant</param>
     /// <param name="scope">The scope of the access token</param>
     [JsonConstructor]
-    public AccessTokenResponse(string accessToken, int expiresIn, string tokenType, string? refreshToken, string? scope)
+    public AccessTokenResponse(string accessToken, string tokenType, int expiresIn, string? refreshToken = null, string? scope = null)
     {
         AccessToken = accessToken;
         ExpiresIn = expiresIn;

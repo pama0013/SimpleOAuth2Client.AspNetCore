@@ -1,7 +1,10 @@
 ﻿using System.Net;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using CSharpFunctionalExtensions;
 using FluentAssertions;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using Moq;
 using RichardSzalay.MockHttp;
@@ -20,9 +23,51 @@ public class ClientCredentialsTests
     [UnitTest]
     [Theory]
     [AutoMoqData]
+    internal async Task GivenAccessTokenResponseFromAuthorizationServerIsNotValid_WhenExecuteIsCalled_ThenAccessTokenResponseRelatedOAuth2ErrorIsReturned(
+        string accessToken,
+        string tokenType,
+        int expiresIn,
+        [Frozen] Mock<IHttpClientFactory> httpClientFactoryMock,
+        [Frozen] Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
+        [Frozen] Mock<IValidator<AccessTokenResponse>> validatorMock,
+        MockHttpMessageHandler httpMessageHandlerMock,
+        SimpleOAuth2ClientOptions options,
+        Generator<ValidationFailure> validationFailureGenerator,
+        ClientCredentials sut)
+    {
+        // Given
+        using var httpClient = new HttpClient(httpMessageHandlerMock);
+
+        SetupHttpClientFactory(httpClientFactoryMock, httpClient);
+        SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
+
+        using HttpContent accessTokenResponse = AuthorizationServerResponses.CreateAccessTokenResponse(accessToken, tokenType, expiresIn);
+
+        httpMessageHandlerMock
+            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
+            .Respond(HttpStatusCode.OK, accessTokenResponse);
+
+        validatorMock
+            .Setup(_ => _.Validate(It.IsAny<AccessTokenResponse>()))
+            .Returns(new ValidationResult(validationFailureGenerator.Take(5)));
+
+        // When
+        Result<AccessToken, OAuth2Error> accessTokenResult = await sut.Execute();
+
+        // Then
+        accessTokenResult
+            .IsFailure
+            .Should()
+            .BeTrue();
+    }
+
+    [UnitTest]
+    [Theory]
+    [AutoMoqData]
     internal void GivenAllDependenciesAreValid_WhenClientCredentialsIsCreated_ThenNoArgumentNullExcpetionShouldThrow(
         Mock<IHttpClientFactory> httpClientFactoryMock,
-        Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock)
+        Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
+        Mock<IValidator<AccessTokenResponse>> validatorMock)
     {
         // Given
         // Nothing to do --> Test data will be injected (See: AutoData attribute)
@@ -30,7 +75,8 @@ public class ClientCredentialsTests
         // When
         Action sutCreated = () => _ = new ClientCredentials(
             httpClientFactoryMock.Object,
-            optionsMonitorMock.Object);
+            optionsMonitorMock.Object,
+            validatorMock.Object);
 
         // Then
         sutCreated
@@ -62,6 +108,8 @@ public class ClientCredentialsTests
         httpMessageHandlerMock
             .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.OK, accessTokenResponse);
+
+        // TBD: Setup validator
 
         // When
         Result<AccessToken, OAuth2Error> accessTokenResult = await sut.Execute();
@@ -379,7 +427,8 @@ public class ClientCredentialsTests
     [Theory]
     [AutoMoqData]
     internal void GivenIHttpClientFactoryIsNull_WhenClientCredentialsIsCreated_ThenArgumentNullExcpetionWithRelatedErrorIsThrown(
-        Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock)
+        Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock,
+        Mock<IValidator<AccessTokenResponse>> validatorMock)
     {
         // Given
         IHttpClientFactory invalidHttpClientFactory = null!;
@@ -387,7 +436,8 @@ public class ClientCredentialsTests
         // When
         Action sutCreated = () => _ = new ClientCredentials(
             invalidHttpClientFactory,
-            optionsMonitorMock.Object);
+            optionsMonitorMock.Object,
+            validatorMock.Object);
 
         // Then
         sutCreated
@@ -400,7 +450,8 @@ public class ClientCredentialsTests
     [Theory]
     [AutoMoqData]
     internal void GivenIOptionsMonitorIsNull_WhenClientCredentialsIsCreated_ThenArgumentNullExceptionWithRelatedMessageIsThrown(
-        Mock<IHttpClientFactory> httpClientFactoryMock)
+        Mock<IHttpClientFactory> httpClientFactoryMock,
+        Mock<IValidator<AccessTokenResponse>> validatorMock)
     {
         // Given
         IOptionsMonitor<SimpleOAuth2ClientOptions> invalidOptionsMonitor = null!;
@@ -408,13 +459,37 @@ public class ClientCredentialsTests
         // When
         Action sutCreated = () => _ = new ClientCredentials(
             httpClientFactoryMock.Object,
-            invalidOptionsMonitor);
+            invalidOptionsMonitor,
+            validatorMock.Object);
 
         // Then
         sutCreated
             .Should()
             .ThrowExactly<ArgumentNullException>()
             .WithParameterName("options");
+    }
+
+    [UnitTest]
+    [Theory]
+    [AutoMoqData]
+    internal void GivenIValidatorIsNull_WhenClientCredentialsIsCreated_ThenArgumentNullExceptionWithRelatedMessageIsThrown(
+        Mock<IHttpClientFactory> httpClientFactoryMock,
+        Mock<IOptionsMonitor<SimpleOAuth2ClientOptions>> optionsMonitorMock)
+    {
+        // Given
+        IValidator<AccessTokenResponse> invalidValidator = null!;
+
+        // When
+        Action sutCreated = () => _ = new ClientCredentials(
+            httpClientFactoryMock.Object,
+            optionsMonitorMock.Object,
+            invalidValidator);
+
+        // Then
+        sutCreated
+            .Should()
+            .ThrowExactly<ArgumentNullException>()
+            .WithParameterName("validator");
     }
 
     private static void SetupHttpClientFactory(Mock<IHttpClientFactory> httpClientFactoryMock, HttpClient httpClient)

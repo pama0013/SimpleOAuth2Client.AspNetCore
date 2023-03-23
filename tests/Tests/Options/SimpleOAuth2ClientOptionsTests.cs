@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using FluentValidation.TestHelper;
+﻿using FluentValidation.TestHelper;
 using SimpleOAuth2Client.AspNetCore.Options;
 using SimpleOAuth2Client.AspNetCore.Options.Validation.Validators;
 using SimpleOAuth2Client.AspNetCore.UnitTests.Common.Attributes;
@@ -61,9 +60,6 @@ public class SimpleOAuth2ClientOptionsTests
         TestValidationResult<SimpleOAuth2ClientOptions> validationResults = sut.TestValidate(options);
 
         // Then
-        validationResults
-            .IsValid
-            .Should()
-            .BeTrue();
+        validationResults.ShouldNotHaveAnyValidationErrors();
     }
 }

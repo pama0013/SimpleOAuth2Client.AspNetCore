@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
 using CSharpFunctionalExtensions;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using SimpleOAuth2Client.AspNetCore.Common.Errors;
 using SimpleOAuth2Client.AspNetCore.Common.Http;
@@ -17,17 +19,20 @@ internal sealed class ClientCredentials : IAuthorizationGrant
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IOptionsMonitor<SimpleOAuth2ClientOptions> _options;
+    private readonly IValidator<AccessTokenResponse> _validator;
 
     /// <summary>
     /// The constructor.
     /// </summary>
     /// <param name="httpClientFactory">The HttpClientfactor to create named clients.</param>
     /// <param name="options">The options for SimpleOAuth2Client.</param>
+    /// <param name="validator">The validator for the AccessTokenResponse.</param>
     /// <exception cref="ArgumentNullException">If one of the constructor parameters are null.</exception>
-    public ClientCredentials(IHttpClientFactory httpClientFactory, IOptionsMonitor<SimpleOAuth2ClientOptions> options)
+    public ClientCredentials(IHttpClientFactory httpClientFactory, IOptionsMonitor<SimpleOAuth2ClientOptions> options, IValidator<AccessTokenResponse> validator)
     {
         _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         _options = options ?? throw new ArgumentNullException(nameof(options));
+        _validator = validator ?? throw new ArgumentNullException(nameof(validator));
     }
 
     /// <inheritdoc/>
@@ -86,7 +91,7 @@ internal sealed class ClientCredentials : IAuthorizationGrant
             : OAuth2Errors.AccessTokenRequest($"[{errorResponse.Error}|{errorResponse.ErrorDescription ?? "-"}]");
     }
 
-    private static async Task<Result<AccessToken, OAuth2Error>> ParseAccessToken(HttpResponseMessage httpResponseMessage)
+    private async Task<Result<AccessToken, OAuth2Error>> ParseAccessToken(HttpResponseMessage httpResponseMessage)
     {
         string httpResponseMessageContent = await httpResponseMessage.Content.ReadAsStringAsync();
 
@@ -94,6 +99,12 @@ internal sealed class ClientCredentials : IAuthorizationGrant
         if (accessTokenResponse is null)
         {
             return OAuth2Errors.AccessTokenResponse("Could not deserialize AccessTokenResponse");
+        }
+
+        ValidationResult accessTokenResponseValidation = _validator.Validate(accessTokenResponse);
+        if (!accessTokenResponseValidation.IsValid)
+        {
+            return OAuth2Errors.AccessTokenResponse(accessTokenResponseValidation.ToString());
         }
 
         return new AccessToken(accessTokenResponse.AccessToken, accessTokenResponse.ExpiresIn);

@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using SimpleOAuth2Client.AspNetCore.Common.Http.Extensions;
 using SimpleOAuth2Client.AspNetCore.Contracts;
 using SimpleOAuth2Client.AspNetCore.GrantTypes.ClientCredential;
 using SimpleOAuth2Client.AspNetCore.GrantTypes.Contracts;
+using SimpleOAuth2Client.AspNetCore.Model;
+using SimpleOAuth2Client.AspNetCore.Model.Validators;
 using SimpleOAuth2Client.AspNetCore.Options;
 using SimpleOAuth2Client.AspNetCore.Options.Validation.Extensions;
 
@@ -41,7 +44,8 @@ public static class SimpleOAuth2ClientServiceCollectionExtensions
     {
         services
             .AddSingleton<IAuthorizationGrant, ClientCredentials>()
-            .AddSingleton<IOAuth2Client, OAuth2Client>();
+            .AddSingleton<IOAuth2Client, OAuth2Client>()
+            .AddSingleton<IValidator<AccessTokenResponse>, AccessTokenResponseValidator>();
 
         return services;
     }

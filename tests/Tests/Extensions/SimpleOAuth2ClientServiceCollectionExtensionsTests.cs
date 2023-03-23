@@ -1,9 +1,11 @@
 ﻿using AutoFixture.Xunit2;
 using FluentAssertions;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleOAuth2Client.AspNetCore.Contracts;
 using SimpleOAuth2Client.AspNetCore.Extensions;
 using SimpleOAuth2Client.AspNetCore.GrantTypes.Contracts;
+using SimpleOAuth2Client.AspNetCore.Model;
 using SimpleOAuth2Client.AspNetCore.Options;
 using SimpleOAuth2Client.AspNetCore.UnitTests.Common.Attributes;
 using Xunit;
@@ -37,6 +39,7 @@ public class SimpleOAuth2ClientServiceCollectionExtensionsTests
 
         AssertRegisteredService<IAuthorizationGrant>(serviceProvider);
         AssertRegisteredService<IOAuth2Client>(serviceProvider);
+        AssertRegisteredService<IValidator<AccessTokenResponse>>(serviceProvider);
     }
 
     [UnitTest]

@@ -11,10 +11,10 @@ public class AccessTokenResponseTests
     [UnitTest]
     [Theory]
     [AutoData]
-    internal void GivenDataForAccessTokenAreAvailable_WhenAccessTokenResponseIsCreated_ThenAccessTokenResponsePropertiesAreSetAsExpected(
+    internal void GivenAllDataForTheAccessTokenResponseAreAvailable_WhenAccessTokenResponseIsCreated_ThenAccessTokenResponsePropertiesAreSetAsExpected(
         string accessToken,
-        int expiresIn,
         string tokenType,
+        int expiresIn,
         string refreshToken,
         string scope)
     {
@@ -22,7 +22,7 @@ public class AccessTokenResponseTests
         // Nothing to do --> Test data will be injected (See: AutoData attribute)
 
         // When
-        var accessTokenResponse = new AccessTokenResponse(accessToken, expiresIn, tokenType, refreshToken, scope);
+        var accessTokenResponse = new AccessTokenResponse(accessToken, tokenType, expiresIn, refreshToken, scope);
 
         // Then
         accessTokenResponse
@@ -49,5 +49,46 @@ public class AccessTokenResponseTests
             .Scope
             .Should()
             .Be(scope);
+    }
+
+    [UnitTest]
+    [Theory]
+    [AutoData]
+    internal void GivenAllRequiredDataForAccessTokenResponseAreAvailable_WhenAccessTokenResponseIsCreated_ThenRequiredAccessTokenResponsePropertiesAreSetAsExpected(
+        string accessToken,
+        string tokenType,
+        int expiresIn)
+    {
+        // Given
+        // Nothing to do --> Test data will be injected (See: AutoData attribute)
+
+        // When
+        var accessTokenResponse = new AccessTokenResponse(accessToken, tokenType, expiresIn);
+
+        // Then
+        accessTokenResponse
+            .AccessToken
+            .Should()
+            .Be(accessToken);
+
+        accessTokenResponse
+            .ExpiresIn
+            .Should()
+            .Be(expiresIn);
+
+        accessTokenResponse
+            .TokenType
+            .Should()
+            .Be(tokenType);
+
+        accessTokenResponse
+            .RefreshToken
+            .Should()
+            .BeNull();
+
+        accessTokenResponse
+            .Scope
+            .Should()
+            .BeNull();
     }
 }
