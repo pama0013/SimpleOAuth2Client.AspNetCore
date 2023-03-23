@@ -20,11 +20,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleOAuth2Client.AspNetCo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{4D57D385-5712-4140-9080-B68C03FB9A47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuth2Client.AspNetCore.Example.Net6", "examples\net6\SimpleOAuth2Client.AspNetCore.Example.Net6.csproj", "{69AA2BB3-01EC-4B93-9F83-74BC5DA77D9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleOAuth2Client.AspNetCore.Example.Net6", "examples\net6\SimpleOAuth2Client.AspNetCore.Example.Net6.csproj", "{69AA2BB3-01EC-4B93-9F83-74BC5DA77D9C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{C98F2B9B-78AC-4E33-8ADE-7DD5027A7DE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "examples\shared\identityserver4\IdentityServer.csproj", "{E208E649-A594-48B5-9FE8-EB166407D56B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "examples\shared\identityserver4\IdentityServer.csproj", "{E208E649-A594-48B5-9FE8-EB166407D56B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
