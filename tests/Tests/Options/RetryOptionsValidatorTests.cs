@@ -1,5 +1,4 @@
 ﻿using AutoFixture.Xunit2;
-using FluentAssertions;
 using FluentValidation.TestHelper;
 using SimpleOAuth2Client.AspNetCore.Options;
 using SimpleOAuth2Client.AspNetCore.Options.Validation.Validators;
@@ -62,10 +61,7 @@ public class RetryOptionsValidatorTests
         TestValidationResult<RetryOptions> validationResults = sut.TestValidate(options);
 
         // Then
-        validationResults
-            .IsValid
-            .Should()
-            .BeTrue();
+        validationResults.ShouldNotHaveAnyValidationErrors();
     }
 
     [UnitTest]

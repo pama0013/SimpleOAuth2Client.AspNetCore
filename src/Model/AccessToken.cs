@@ -16,6 +16,12 @@ public sealed record AccessToken
     private readonly int _expiresIn;
 
     /// <summary>
+    /// Gets the type of the access token.
+    /// </summary>
+    /// <remarks>In most of the cases bearer.</remarks>
+    public string TokenType { get; }
+
+    /// <summary>
     /// Gets the content of the access token.
     /// </summary>
     public string Value { get; }
@@ -30,9 +36,12 @@ public sealed record AccessToken
     /// </summary>
     /// <param name="accessToken">The access token.</param>
     /// <param name="expiresIn">The expire time of the access token.</param>
-    public AccessToken(string accessToken, int expiresIn)
+    /// <param name="tokenType">The type of the access token.</param>
+    public AccessToken(string accessToken, string tokenType, int expiresIn)
     {
         Value = accessToken;
+        TokenType = tokenType;
+
         _expiresIn = expiresIn;
         _created = DateTime.Now;
     }

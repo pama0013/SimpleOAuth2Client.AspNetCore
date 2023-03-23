@@ -1,5 +1,4 @@
 ﻿using AutoFixture.Xunit2;
-using FluentAssertions;
 using FluentValidation.TestHelper;
 using SimpleOAuth2Client.AspNetCore.Options;
 using SimpleOAuth2Client.AspNetCore.Options.Validation.Validators;
@@ -24,10 +23,7 @@ public class ClientCredentialOptionsValidatorTests
         TestValidationResult<ClientCredentialOptions> validationResults = sut.TestValidate(options);
 
         // Then
-        validationResults
-            .IsValid
-            .Should()
-            .BeTrue();
+        validationResults.ShouldNotHaveAnyValidationErrors();
     }
 
     [UnitTest]
