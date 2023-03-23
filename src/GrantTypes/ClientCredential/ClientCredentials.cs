@@ -107,6 +107,6 @@ internal sealed class ClientCredentials : IAuthorizationGrant
             return OAuth2Errors.AccessTokenResponse(accessTokenResponseValidation.ToString());
         }
 
-        return new AccessToken(accessTokenResponse.AccessToken, accessTokenResponse.ExpiresIn);
+        return new AccessToken(accessTokenResponse.AccessToken, accessTokenResponse.TokenType, accessTokenResponse.ExpiresIn);
     }
 }
