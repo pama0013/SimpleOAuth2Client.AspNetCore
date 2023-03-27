@@ -1,5 +1,5 @@
 # ASP.NET Core 7 Example
-This is a simple example of using the SimpleOAuth2Client.AspNetCore NuGet-Package in a ASP.NET Core 7 project with Minimal Api.
+This is a simple example of using the SimpleOAuth2Client.AspNetCore NuGet-Package in a ASP.NET Core 7 project with Minimal API.
 
 # Getting Started
 First of all we need to start the minimal implementation of the IdentityServer4 application (Can be found under the path /examples/shared/identityserver4). This server is not configured for production use cases. At the moment only one client for testing is configured.
