@@ -91,4 +91,22 @@ Please be careful with this feature. Do not use this feature in production!
 
 ## How to Debug the NuGet-Package
 
-TBD
+First of all we need to configure Visual Studio 2022 to use Source Link. The related Symbol files are uploaded to the Symbol File repository of NuGet.org.
+
+The first step is to enable the download form the symbol files (Tools --> Options --> Debugging --> Symbols)
+
+![Vs_Symbols](https://user-images.githubusercontent.com/9673822/228032174-d48ee8d6-5471-4e0c-89ba-8eb33b624ced.PNG)
+
+Next step is to disable “Enable Just My Code” option (Tools --> Options --> Debugging --> General)
+
+![Vs_DisbaleMyCode](https://user-images.githubusercontent.com/9673822/228032829-35795e0d-e400-493b-a98b-23e067cfa310.PNG)
+
+The last step is to enable Source Server support (Tools --> Options --> Debugging --> General)
+
+![Vs_SourceServerSupport](https://user-images.githubusercontent.com/9673822/228033588-822c7184-ec33-4cd4-8c26-5b6b1d2937bd.PNG)
+
+After the successful configuration of Visual Studio 2022 we can set a Breakpoint and start debugging
+
+![Vs_Breakpoint](https://user-images.githubusercontent.com/9673822/228034472-a57d24ac-c071-443d-880a-28bdc99a3a22.PNG)
+
+Hint: The first application startup take some time, because Visual Studio try to download the symbol files!
