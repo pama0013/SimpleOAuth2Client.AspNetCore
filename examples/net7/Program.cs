@@ -16,9 +16,18 @@ SimpleOAuth2ClientOptions? simpleOAuth2ClientOptions = section
 
 builder.Services.AddSimpleOAuth2Client(options =>
 {
-    options.ClientId = simpleOAuth2ClientOptions.ClientId;
-    options.ClientSecret = simpleOAuth2ClientOptions.ClientSecret;
-    options.TokenEndpoint = simpleOAuth2ClientOptions.TokenEndpoint;
+    // Configure the options for the client_credentials grant type
+    options.ClientCredentialOptions.ClientId = simpleOAuth2ClientOptions.ClientId;
+    options.ClientCredentialOptions.ClientSecret = simpleOAuth2ClientOptions.ClientSecret;
+    options.ClientCredentialOptions.TokenEndpoint = simpleOAuth2ClientOptions.TokenEndpoint;
+
+    // Configure the options for the retry algorithm
+    options.RetryOptions.TimeoutPerRetry = 15;
+    options.RetryOptions.RetryAttempts = 3;
+    options.RetryOptions.FirstRetryDelay = 3;
+
+    // Disable eServerCertificateValidation for development
+    options.DisableServerCertificateValidation = true;
 });
 
 WebApplication app = builder.Build();

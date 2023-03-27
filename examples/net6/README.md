@@ -28,4 +28,4 @@ Example for environment variables:
     set SimpleOAuth2ClientOptions__ClientSecret=password12345
     set SimpleOAuth2ClientOptions__TokenEndpoint=https://localhost:5002/connect/token
     
-After the IdentityServer4 is started and the required SimpleOAuth2ClientOptions are configured the example application can be started. When the startup process was successfull we can test the MinimalApi endpoint.
+After the IdentityServer4 is started and the required SimpleOAuth2ClientOptions are configured the example application can be started. When the startup process was successful we can test the MinimalApi endpoint.
