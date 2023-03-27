@@ -26,7 +26,7 @@ builder.Services.AddSimpleOAuth2Client(options =>
     options.RetryOptions.RetryAttempts = 3;
     options.RetryOptions.FirstRetryDelay = 3;
 
-    // Disable eServerCertificateValidation for development
+    // Disable ServerCertificateValidation for development
     options.DisableServerCertificateValidation = true;
 });
 
