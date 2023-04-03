@@ -20,4 +20,9 @@ public sealed record SimpleOAuth2ClientOptions
     /// </summary>
     /// <remarks>The default value is false. Be careful with this option. Can be lead to a security issue.</remarks>
     public bool DisableServerCertificateValidation { get; set; }
+
+    /// <summary>
+    /// Gets or sets the options to enable logs from HttpClient.
+    /// </summary>
+    public bool EnableSensibleHttpClientLogging { get; set; }
 }

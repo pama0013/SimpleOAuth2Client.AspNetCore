@@ -44,7 +44,7 @@ public class ClientCredentialsTests
         using HttpContent accessTokenResponse = AuthorizationServerResponses.CreateAccessTokenResponse(accessToken, tokenType, expiresIn);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
+            .Expect(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.OK, accessTokenResponse);
 
         validatorMock
@@ -106,10 +106,8 @@ public class ClientCredentialsTests
         using HttpContent accessTokenResponse = AuthorizationServerResponses.CreateAccessTokenResponse(accessToken, tokenType, expiresIn);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
+            .Expect(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.OK, accessTokenResponse);
-
-        // TBD: Setup validator
 
         // When
         Result<AccessToken, OAuth2Error> accessTokenResult = await sut.Execute();
@@ -152,7 +150,7 @@ public class ClientCredentialsTests
         using HttpContent accessTokenResponse = AuthorizationServerResponses.CreateAccessTokenResponseWithNullValue();
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
+            .Expect(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.OK, accessTokenResponse);
 
         // When
@@ -198,7 +196,7 @@ public class ClientCredentialsTests
         SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
+            .Expect(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.BadRequest, httpResponseContent);
 
         // When
@@ -240,7 +238,7 @@ public class ClientCredentialsTests
         SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
+            .Expect(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.BadRequest, httpResponseContent);
 
         // When
@@ -280,7 +278,7 @@ public class ClientCredentialsTests
         SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
+            .Expect(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.BadRequest, httpResponseContent);
 
         // When
@@ -321,7 +319,7 @@ public class ClientCredentialsTests
         SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
+            .Expect(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.InternalServerError, accessTokenResponse);
 
         // When
@@ -362,7 +360,7 @@ public class ClientCredentialsTests
         SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
+            .Expect(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.BadGateway, accessTokenResponse);
 
         // When
@@ -401,7 +399,7 @@ public class ClientCredentialsTests
         SetupSimpleOAuth2ClientOptions(optionsMonitorMock, options);
 
         httpMessageHandlerMock
-            .When(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
+            .Expect(HttpMethod.Post, options.ClientCredentialOptions.TokenEndpoint.ToString())
             .Respond(HttpStatusCode.Unauthorized);
 
         // When

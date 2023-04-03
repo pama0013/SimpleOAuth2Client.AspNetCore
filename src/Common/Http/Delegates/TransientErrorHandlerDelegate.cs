@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Polly.Timeout;
 
-namespace SimpleOAuth2Client.AspNetCore.Common.Http;
+namespace SimpleOAuth2Client.AspNetCore.Common.Http.Delegates;
 
 /// <summary>
 /// This class handles exceptions which are related to transient network errors.
