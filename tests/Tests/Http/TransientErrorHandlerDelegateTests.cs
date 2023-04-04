@@ -3,7 +3,7 @@ using AutoFixture.Xunit2;
 using FluentAssertions;
 using Polly.Timeout;
 using RichardSzalay.MockHttp;
-using SimpleOAuth2Client.AspNetCore.Common.Http;
+using SimpleOAuth2Client.AspNetCore.Common.Http.Delegates;
 using SimpleOAuth2Client.AspNetCore.UnitTests.Common.Attributes;
 using Xunit;
 
@@ -16,7 +16,7 @@ public class TransientErrorHandlerDelegateTests
     [AutoData]
     internal async Task GivenHttpRequestExceptionIsThrown_WhenHttpClientIsExecuted_ThenTransientErrorHandlerDelegateReturnHttpStatusCode500InternalServerError(
         Uri uri,
-        StringContent content,
+        StringContent requestContent,
         MockHttpMessageHandler httpMessageHandlerMock)
     {
         // Given
@@ -32,7 +32,7 @@ public class TransientErrorHandlerDelegateTests
         using var httpClient = new HttpClient(transientErrorHandler);
 
         // When
-        HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, content);
+        HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, requestContent);
 
         // Then
         responseMessage
@@ -52,7 +52,7 @@ public class TransientErrorHandlerDelegateTests
     [AutoData]
     internal void GivenInvalidOperationIsThrown_WhenHttpClientIsExecuted_ThenTransientErrorHandlerDelegateRethrowTheException(
         Uri uri,
-        StringContent content,
+        StringContent requestContent,
         string exceptionMessage,
         MockHttpMessageHandler httpMessageHandlerMock)
     {
@@ -69,7 +69,7 @@ public class TransientErrorHandlerDelegateTests
         using var httpClient = new HttpClient(transientErrorHandler);
 
         // When
-        Func<Task> postAsyncCalled = async () => _ = await httpClient.PostAsync(uri, content);
+        Func<Task> postAsyncCalled = async () => _ = await httpClient.PostAsync(uri, requestContent);
 
         // Then
         postAsyncCalled
@@ -83,7 +83,7 @@ public class TransientErrorHandlerDelegateTests
     [AutoData]
     internal async Task GivenTaskCanceledExceptionIsThrown_WhenHttpClientIsExecuted_ThenTransientErrorHandlerDelegateReturnHttpStatusCode500InternalServerError(
         Uri uri,
-        StringContent content,
+        StringContent requestContent,
         MockHttpMessageHandler httpMessageHandlerMock)
     {
         // Given
@@ -99,7 +99,7 @@ public class TransientErrorHandlerDelegateTests
         using var httpClient = new HttpClient(transientErrorHandler);
 
         // When
-        HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, content);
+        HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, requestContent);
 
         // Then
         responseMessage
@@ -119,7 +119,7 @@ public class TransientErrorHandlerDelegateTests
     [AutoData]
     internal async Task GivenTimeoutRejectedExceptionIsThrown_WhenHttpClientIsExecuted_ThenTransientErrorHandlerDelegateReturnHttpStatusCode500InternalServerError(
         Uri uri,
-        StringContent content,
+        StringContent requestContent,
         MockHttpMessageHandler httpMessageHandlerMock)
     {
         // Given
@@ -135,7 +135,7 @@ public class TransientErrorHandlerDelegateTests
         using var httpClient = new HttpClient(transientErrorHandler);
 
         // When
-        HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, content);
+        HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, requestContent);
 
         // Then
         responseMessage

@@ -16,6 +16,7 @@ public class BasicAuthenticationHeaderValueTests
         string password)
     {
         // Given
+        // Nothing to do --> Test data will be injected (See: AutoData attribute)
 
         // When
         var basicAuthenticationHeaderValue = new BasicAuthenticationHeaderValue(username, password);
