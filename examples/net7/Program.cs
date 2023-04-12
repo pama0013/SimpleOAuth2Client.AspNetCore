@@ -28,6 +28,9 @@ builder.Services.AddSimpleOAuth2Client(options =>
 
     // Disable ServerCertificateValidation for development
     options.DisableServerCertificateValidation = true;
+
+    // Enable sensible HttpClient logging
+    options.EnableSensibleHttpClientLogging = true;
 });
 
 WebApplication app = builder.Build();

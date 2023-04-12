@@ -9,12 +9,12 @@ The client credentials are:
 - ClientSecret = password12345
 - TokenEndpoint = https://localhost:5002/connect/token
 
-To handover the SimpleOAuth2ClientOptions to the ASP.NET Core 7 example we have multiple options:
-1. Define the client credentials in the appsettings.json file
+To handover the SimpleOAuth2ClientOptions to the ASP.NET Core 6 example we have multiple options:
+1. Define the client credentials in the appsettings.json file (Default)
 2. Define the client credentials as environment variables
 3. Define the client credentials as command line parameter
 
-Example for appsettings.json:
+Example form appsettings.json:
 
     "SimpleOAuth2ClientOptions": {
         "ClientId": "test-client",

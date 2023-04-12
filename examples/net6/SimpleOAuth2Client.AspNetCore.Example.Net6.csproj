@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SimpleOAuth2Client.AspNetCore" Version="1.0.0-beta" />
+    <PackageReference Include="SimpleOAuth2Client.AspNetCore" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
